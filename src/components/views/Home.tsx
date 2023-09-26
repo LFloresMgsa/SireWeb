@@ -2,7 +2,7 @@
 import React from 'react';
 
 const Home: React.FC = () => {
-  return <div>Página principal --------------  Home</div>;
+  return <div>Página principal --------------  Inicio</div>;
 };
 
 export default Home;
