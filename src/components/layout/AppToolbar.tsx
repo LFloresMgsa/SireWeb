@@ -14,17 +14,34 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import FactoryIcon from '@mui/icons-material/Factory';
 
+
+
 import logo from "../assets/mgsa.jpg";
 
 // const pages = ['Products', 'Pricing', 'Blog'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
+interface MenuItem {
+  label: string;
+  url: string;
+}
+
+
 const pages = [''];
-const settings = ['Login','Logout'];
+
+const settings: MenuItem[] = [
+  { label: 'Login', url: '' },
+  { label: 'Logout', url: '' }
+];
+
+
+
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -38,8 +55,18 @@ function ResponsiveAppBar() {
   };
 
   const handleCloseUserMenu = () => {
+
     setAnchorElUser(null);
   };
+
+  const handleLogin = () => {
+    window.location.href = "../../login";
+  };
+
+  const handleLogout = () => {
+    window.location.href = "../../logout";
+  };
+
 
   return (
     <AppBar position="static">
@@ -154,11 +181,15 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+
+              <MenuItem key={"Login"} onClick={handleLogin} >
+                <Typography textAlign="center">Login</Typography>
+              </MenuItem>
+
+              <MenuItem key={"Logout"} onClick={handleLogout} >
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
+
             </Menu>
           </Box>
         </Toolbar>

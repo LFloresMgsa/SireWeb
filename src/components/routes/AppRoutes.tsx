@@ -5,6 +5,7 @@ import Home from '../views/Home';
 import Descarga from '../views/Descarga';
 import Comparativo from '../views/Comparativo';
 import Reemplazo from '../views/Reemplazo';
+import Login from '../views/Login';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />
 
+      <Route path="/login" element={<Login />} />
       <Route path="/rvie" element={<Home />} />
       <Route path="/rvie/descarga" element={<Descarga />} />
       <Route path="/rvie/comparativo" element={<Comparativo />} />
