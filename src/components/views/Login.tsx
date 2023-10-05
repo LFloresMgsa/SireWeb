@@ -1,17 +1,24 @@
-// src/components/Login.tsx
 import React, { useState } from 'react';
-import { Paper, Avatar, Grid, Button, TextField, Typography, Container, CssBaseline } from '@mui/material';
-//import { LockOutlined as LockOutlinedIcon } from '@material-ui/icons'
+
+import { Paper,  Grid, Button, TextField, Typography, Container, CssBaseline } from '@mui/material';
 import Cookies from 'universal-cookie';
-import {Md5} from 'md5-typescript';
-
-import HorizontalRuleOutlinedIcon from '@mui/icons-material/HorizontalRuleOutlined';
-
-
-
-import axios from 'axios';
-
+import { ApiService } from '../services/api.service';
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import { RootState } from '../reducers';
+import { connect } from 'react-redux';
+import { setEmpCodigo, setPanAnio, setSoftCodSoft } from '../reducers/localStorageReducer';
+
+
+
+interface Login {
+  Emp_cCodigo: string;
+  Pan_cAnio: string;
+  soft_cCodSoft: string;
+  setEmpCodigo: (code: string) => void;
+  setPanAnio: (year: string) => void;
+  setSoftCodSoft: (soft: string) => void;
+}
+
 
 const cookies = new Cookies();
 
@@ -53,8 +60,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 
-const Login: React.FC = () => {
-  const [body, setBody] = useState({ nickname: '', password: '' })
+const Login: React.FC<Login> = ({
+  Emp_cCodigo,
+  Pan_cAnio,
+  soft_cCodSoft,
+  setEmpCodigo,
+  setPanAnio,
+  setSoftCodSoft,
+}) => {
+  
   const classes = useStyles()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -62,83 +76,87 @@ const Login: React.FC = () => {
   const [error, setError] = useState('');
   const [Token, setToken] = useState('');
 
-	const BuscarToken = async () => {
+  const BuscarToken = async () => {
 
-		try {
-			let _body = { Accion: "BUSCARREGISTRO", Sgm_cUsuario: username, Sgm_cContrasena: Md5.init(password) }
+    try {
+      let _body = { Accion: "LOGIN", usu_cCodUsuario: username, usu_cClave: password }
 
-			// obtenemos el token
-			// await eventoService.obtenerToken(_body).then(
-			// 	(res) => {
-			// 		setToken(res)
-			// 	},
-			// 	(error) => {
-			// 		console.log(error);
-			// 	}
-			// );
+      await ApiService.obtenerToken(_body).then(
+        (res) => {
+          setToken(res);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
 
-
-			// if (Token) {
-			// 	cookies.set('token', Token.token, { path: "/" });
-			// 	setError('');
-			// }
-		} catch (error) {
-			setError('An error occurred while trying to login - token');
-		}
-	};
+      if (Token) {
+        cookies.set('token', Token, { path: "/" });
+        setError('');
+      }
 
 
-	const handleLogin = async () => {
-
-		try {
-
-			// genera un token
-			await BuscarToken();
-
-			// valida si encontro el token
-
-			if (!cookies.get('token')) {
-				throw "Error: Token no existe";
-			}
-
-			let _body = { Accion: "BUSCARREGISTRO", Sgm_cUsuario: username, Sgm_cContrasena: Md5.init(password) }
-			let _result;
-
-			// si encontro el token ingresa el login
-			// await eventoService.obtenerUsuario(_body).then(
-
-			// 	(res) => {
-			// 		setLogeo(res[0]);
-			// 		_result = res[0];
-			// 	},
-			// 	(error) => {
-			// 		console.log(error);
-			// 	}
-			// );
-
-			// if (_result[0].Sgm_cUsuario == username) {
-
-			// 	cookies.set('Sgm_cUsuario', _result[0].Sgm_cUsuario, { path: "/" });
-			// 	cookies.set('Sgm_cNombre', _result[0].Sgm_cNombre, { path: "/" });
-			// 	cookies.set('Sgm_cContrasena', _result[0].Sgm_cContrasena, { path: "/" });
-			// 	cookies.set('Sgm_cObservaciones', _result[0].Sgm_cObservaciones, { path: "/" });
-			// 	cookies.set('Sgm_cPerfil', _result[0].Sgm_cPerfil, { path: "/" });
-
-			// 	cookies.set('IsLoged', true , { path: "/" });
-
-			// 	setError('');
-
-			// 	if (cookies.get('token')) {
-			// 		window.location.href = "./inicio";
-			// 	}
+    } catch (error) {
+      setError('An error occurred while trying to login - token');
+    }
+  };
 
 
-			//}
-		} catch (error) {
-			setError('');
+  const handleLogin = async () => {
 
-		}
-	};
+    try {
+
+      // genera un token
+      await BuscarToken();
+
+
+      // valida si encontro el token
+
+      if (!cookies.get('token')) {
+        throw "Error: Token no existe";
+      }
+
+      let _body = {
+        Accion: "LOGIN", usu_cCodUsuario: username, usu_cClave: password, Emp_cCodigo: Emp_cCodigo, soft_cCodSoft: soft_cCodSoft
+      }
+      let _result: any;
+
+
+      // si encontro el token ingresa el login
+      await ApiService.obtenerUsuario(_body).then(
+
+        (res) => {
+
+          setLogeo(res);
+          _result = res;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
+
+
+      if (_result.usuario === username && _result.respuesta === "1" ) {
+
+        cookies.set('Sgm_cUsuario', _result.usuario, { path: "/" });
+        cookies.set('Sgm_cNombre', _result.nombre, { path: "/" });
+        cookies.set('Sgm_cContrasena', _result.clave, { path: "/" });
+        cookies.set('Sgm_cRole', _result.role, { path: "/" });
+        cookies.set('IsLoged', true, { path: "/" });
+
+        setError('');
+
+        if (cookies.get('token')) {
+          window.location.href = "./inicio";
+          //*console.log(soft_cCodSoft);
+          //console.log(cookies.get('Sgm_cRole'));
+        }
+      }
+    } catch (error) {
+      setError('');
+    }
+  };
 
   return (
     <Container maxWidth="sm">
@@ -213,4 +231,16 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+const mapStateToProps = (state: RootState) => ({
+  Emp_cCodigo: state.localStorage.Emp_cCodigo,
+  Pan_cAnio: state.localStorage.Pan_cAnio,
+  soft_cCodSoft: state.localStorage.soft_cCodSoft,
+});
+
+const mapDispatchToProps = {
+  setEmpCodigo,
+  setPanAnio,
+  setSoftCodSoft,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
