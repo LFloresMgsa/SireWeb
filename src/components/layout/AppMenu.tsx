@@ -5,6 +5,7 @@ import { menuData } from './menuData';
 import Cookies from 'universal-cookie';
 import { MenuItem } from "./menuDatatypes";
 
+
 const cookies = new Cookies();
 
 const AppMenu: React.FC = () => {

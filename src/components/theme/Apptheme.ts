@@ -12,11 +12,14 @@ const theme = createTheme({
     fontFamily: 'Arial, sans-serif', // Cambia la fuente a la que desees
     fontSize: 11, // Cambia el tamaño de fuente aquí
     
+    
   },  
   palette: {
-    mode: 'dark',
-    primary: { main: 'rgb(102, 157, 246)' },
-    background: { paper: 'rgb(111, 11, 31)' },
+    mode: 'light',
+    primary: { main: 'rgb(111, 11, 31)' }, // fondo de botones
+    secondary: { main: 'rgb(205, 183, 188)' }, // fondo de botones
+    background: { paper: 'rgb(111, 11, 31)' }, // fonto de menu
+    
   },
 
 });

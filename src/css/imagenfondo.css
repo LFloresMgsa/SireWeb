@@ -1,11 +1,11 @@
-.container {
+/* .container {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* height: 80vh; Ajusta el valor según sea necesario */
+  
   overflow: hidden;
 
-}
+} */
 
 .image-container {
   display: flex;

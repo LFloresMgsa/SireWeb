@@ -13,6 +13,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import Arrow from '@mui/icons-material/TrackChanges';
+import '../../css/AppBarMenuStyles.css';
 
 interface MenuProps {
     menuItems: MenuItem[];
@@ -40,7 +41,7 @@ const Menu: React.FC<MenuProps> = ({ menuItems }) => {
                 >
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
 
-                        <ListItemText primary={item.label} />
+                        <ListItemText primary={item.label} className='custom-bar-text' />
 
                     </AccordionSummary>
                     <AccordionDetails>
@@ -66,10 +67,10 @@ const renderSubMenu = (items: MenuItem[]) => {
             to={item.url}>
 
             <ListItemIcon>
-                {item.parent === 2 && (<Arrow />)}
+                {item.parent === 2 && (<Arrow className='custom-icons'/>)}
 
             </ListItemIcon>
-            <ListItemText primary={item.label} />
+            <ListItemText primary={item.label} className='custom-bar-text'/>
 
         </ListItem>
     ));

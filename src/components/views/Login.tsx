@@ -7,7 +7,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import { RootState } from '../reducers';
 import { connect } from 'react-redux';
 import { setEmpCodigo, setPanAnio, setSoftCodSoft } from '../reducers/localStorageReducer';
-
+import fondo from '../assets/fondosireW.png'
 
 
 interface Login {
@@ -24,15 +24,17 @@ const cookies = new Cookies();
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    backgroundImage: '',// `url(${fondo})`,
+    backgroundImage: ''/*`url(${fondo})`*/,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    
     height: '91vh',
   },
   container: {
     opacity: '1',
     height: '70%',
+    
     marginTop: theme.spacing(10),
     [theme.breakpoints.down(400 + theme.spacing(2) + 2)]: {
       marginTop: 0,
@@ -171,7 +173,7 @@ const Login: React.FC<Login> = ({
               <Grid item xs={12} lg={12}>
 
 
-                <Typography component='h1' variant='h5'>Ingreso Sistema</Typography>
+                <Typography component='h1' variant='h5' className='custom-bar-text'>Ingreso Sistema</Typography>
 
               </Grid>
               <Grid item xs={12} lg={12}>
@@ -188,7 +190,7 @@ const Login: React.FC<Login> = ({
                         color='primary'
                         margin='normal'
                         variant='outlined'
-                        label='Usuario'
+                        
                         name='nickname'
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
@@ -201,7 +203,7 @@ const Login: React.FC<Login> = ({
                         color='primary'
                         margin='normal'
                         variant='outlined'
-                        label='Contraseña'
+                        
                         name='password'
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -211,7 +213,7 @@ const Login: React.FC<Login> = ({
                       <Button
                         fullWidth
                         variant='contained'
-                        color='primary'
+                        color='secondary'
                         className={classes.button}
                         onClick={handleLogin}
                       >

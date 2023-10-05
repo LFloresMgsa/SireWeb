@@ -24,6 +24,8 @@ import {
   ListItemText,
 } from '@mui/material';
 
+import '../../css/AppBarMenuStyles.css';
+
 import Avatar from '@mui/material/Avatar';
 
 import logo from "../assets/mgsa.jpg";
@@ -31,9 +33,6 @@ import logo from "../assets/mgsa.jpg";
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
-
-// const pages = ['Products', 'Pricing', 'Blog'];
-// const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 interface MenuItem {
   label: string;
@@ -43,10 +42,6 @@ interface MenuItem {
 
 const pages = [''];
 
-const settings: MenuItem[] = [
-  { label: 'Login', url: '' },
-  { label: 'Logout', url: '' }
-];
 
 
 
@@ -89,10 +84,10 @@ function ResponsiveAppBar() {
   }, [])
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" className="custom-app-bar">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <FactoryIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <FactoryIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} className='custom-icons' />
           <Typography
             variant="h6"
             noWrap
@@ -107,6 +102,7 @@ function ResponsiveAppBar() {
               color: 'inherit',
               textDecoration: 'none',
             }}
+            className='custom-bar-text'
           >
             ADVISOR - SIRE
           </Typography>
@@ -213,19 +209,19 @@ function ResponsiveAppBar() {
               {!isLoged &&
                 <MenuItem key={"Login"} onClick={handleLogin} >
                   <ListItemIcon>
-                    <LoginIcon fontSize="small" />
+                    <LoginIcon fontSize="small" className='custom-icons'/>
 
                   </ListItemIcon>
 
-                  <Typography textAlign="center">Ingresar al Sistema</Typography>
+                  <Typography textAlign="center" className='custom-bar-text'>Ingresar al Sistema</Typography>
                 </MenuItem>
               }
               {isLoged &&
                 <MenuItem key={"Logout"} onClick={handleLogout} >
                   <ListItemIcon>
-                    <LogoutIcon fontSize="small" />
+                    <LogoutIcon fontSize="small" className='custom-icons'/>
                   </ListItemIcon>
-                  <Typography textAlign="center">Salir del Sistema</Typography>
+                  <Typography textAlign="center" className='custom-bar-text'>Salir del Sistema</Typography>
                 </MenuItem>
               }
             </Menu>
