@@ -149,8 +149,8 @@ const Login: React.FC<Login> = ({
 
         if (cookies.get('token')) {
           window.location.href = "./inicio";
-          //*console.log(soft_cCodSoft);
-          //console.log(cookies.get('Sgm_cRole'));
+          //console.log(soft_cCodSoft);
+         //console.log(cookies.get('Sgm_cRole'));
         }
       }
     } catch (error) {

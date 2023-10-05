@@ -1,22 +1,36 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import FactoryIcon from '@mui/icons-material/Factory';
 
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
 
+import {
+  Button,
+  Menu,
+  Box,
+  ListItemIcon,
+  Divider,
+  ButtonGroup,
+  ListItemText,
+} from '@mui/material';
+
+import Avatar from '@mui/material/Avatar';
 
 import logo from "../assets/mgsa.jpg";
+
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 // const pages = ['Products', 'Pricing', 'Blog'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -40,7 +54,7 @@ const settings: MenuItem[] = [
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-
+  const [isLoged, setIsLoged] = useState(false);
 
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -67,6 +81,12 @@ function ResponsiveAppBar() {
     window.location.href = "../../logout";
   };
 
+  // Load de Pagina
+  useEffect(() => {
+    setIsLoged(cookies.get('IsLoged'));
+
+
+  }, [])
 
   return (
     <AppBar position="static">
@@ -182,14 +202,32 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
 
-              <MenuItem key={"Login"} onClick={handleLogin} >
-                <Typography textAlign="center">Login</Typography>
+              <MenuItem>
+                <ListItemIcon>
+                  <Avatar/>
+                </ListItemIcon>
               </MenuItem>
 
-              <MenuItem key={"Logout"} onClick={handleLogout} >
-                <Typography textAlign="center">Logout</Typography>
-              </MenuItem>
+              <Divider />
 
+              {!isLoged &&
+                <MenuItem key={"Login"} onClick={handleLogin} >
+                  <ListItemIcon>
+                    <LoginIcon fontSize="small" />
+
+                  </ListItemIcon>
+
+                  <Typography textAlign="center">Ingresar al Sistema</Typography>
+                </MenuItem>
+              }
+              {isLoged &&
+                <MenuItem key={"Logout"} onClick={handleLogout} >
+                  <ListItemIcon>
+                    <LogoutIcon fontSize="small" />
+                  </ListItemIcon>
+                  <Typography textAlign="center">Salir del Sistema</Typography>
+                </MenuItem>
+              }
             </Menu>
           </Box>
         </Toolbar>
