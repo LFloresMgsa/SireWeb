@@ -12,6 +12,7 @@ const Logout: React.FC = () => {
     cookies.remove('Sgm_cObservaciones', { path: '/' });
     cookies.remove('token', { path: '/' });
     cookies.remove('IsLoged', { path: '/' });
+    cookies.remove('IsLogedIni', { path: '/' });    
 
 
     window.location.href = './inicio';

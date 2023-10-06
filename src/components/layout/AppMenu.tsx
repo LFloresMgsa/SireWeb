@@ -23,7 +23,7 @@ const AppMenu: React.FC = () => {
 
   
   if (cookies.get('Sgm_cUsuario') !== undefined) {
-    if (cookies.get('Sgm_cUsuario') !== "" && cookies.get('Sgm_cUsuario') !== null) {
+    if (cookies.get('IsLoged') == true) {
       tabs = menuData
         .map((item) => {
           const subarrayFiltrado = item.children.filter(
